@@ -13,5 +13,9 @@
     @csrf
     <button type="submit" style="background-color: darkred;color: white;padding: 8px 12px;border-radius: 10px;border: 0;outline: none">Logout</button>
 </form>
+<nav>
+    <a href="{{route('products.index')}}" style="display: inline-block;margin-top: 12px;background-color: #1a202c;color: whitesmoke; padding: 6px 12px">Products</a>
+    <a href="" style="display: inline-block;margin-top: 12px;background-color: #1a202c;color: whitesmoke; padding: 6px 12px">Users</a>
+</nav>
 </body>
 </html>
