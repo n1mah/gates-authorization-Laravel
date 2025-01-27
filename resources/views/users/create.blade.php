@@ -17,6 +17,11 @@
     <label for="">Email</label>
     <input type="text" name="email" placeholder="Enter Your Email">
     <br>
+    <select name="role">
+        <option value="user">user</option>
+        <option value="operator">Operator</option>
+    </select>
+    <br>
     <label for="">Password</label>
     <input type="password" name="password" placeholder="Enter Your Password">
     <br>

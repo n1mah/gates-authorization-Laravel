@@ -15,6 +15,11 @@
     <label for="">Name</label>
     <input type="text" name="name" placeholder="Enter Your Name" value="{{old('name',$user->name)}}">
     <br>
+    <select name="role" @selected($user->role)>
+        <option value="user">user</option>
+        <option value="operator">Operator</option>
+    </select>
+    <br>
     <input type="submit" value="Update">
 </form>
 </body>
