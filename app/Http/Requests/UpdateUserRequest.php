@@ -23,6 +23,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:2|max:255',
+            'role'=>'required|in:operator,user',
         ];
     }
 }
