@@ -30,6 +30,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class,'logout'])->name('logout');
-    Route::get('/dashboard', [UserController::class,'dashboard'])->name('dashboard');
     Route::resource('products', ProductController::class)->except(['show']);
+    Route::resource('users', UserController::class)->except(['show']);
+    Route::get('/dashboard', [UserController::class,'dashboard'])->name('dashboard');
 });
