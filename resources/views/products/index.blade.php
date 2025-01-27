@@ -11,6 +11,7 @@
 <h3>User->{{\Illuminate\Support\Facades\Auth::user()->email}}
     <form action="{{route('logout')}}" method="post">
         @csrf
+        @method('delete')
         <button type="submit" style="background-color: darkred;color: white;padding: 8px 12px;border-radius: 10px;border: 0;outline: none">Logout</button>
     </form>
 </h3>

@@ -11,6 +11,7 @@
 <h3>User->{{\Illuminate\Support\Facades\Auth::user()->email}}
     <form action="{{route('logout')}}" method="post">
         @csrf
+        @method('delete')
         <button type="submit" style="background-color: darkred;color: white;padding: 8px 12px;border-radius: 10px;border: 0;outline: none">Logout</button>
     </form>
 </h3>
@@ -21,9 +22,9 @@
 <table border="1">
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Price</th>
+            <th>name</th>
+            <th>email</th>
+            <th>role</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -32,6 +33,7 @@
         <tr>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
+            <td>{{$user->role}}</td>
             <td>
                 <form action="{{route('users.edit',$user)}}" method="get">
                     @csrf
