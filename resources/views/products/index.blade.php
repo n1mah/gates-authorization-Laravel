@@ -17,7 +17,9 @@
 </h3>
 
 <h1>Products</h1>
+@can('product-manage')
 <a href="{{route('products.create')}}">Add Product</a>
+@endcan
 <br><br>
 <table border="1">
     <thead>
@@ -35,15 +37,19 @@
             <td>{{$product->description}}</td>
             <td>{{$product->price}}</td>
             <td>
+                @can('product-manage')
                 <form action="{{route('products.edit',$product)}}" method="get">
                     @csrf
                     <button type="submit" style="background-color: orangered;color: white;padding: 8px 12px;border-radius: 10px;border: 0;outline: none">Edit</button>
                 </form>
+                @endcan
+                @can('product-delete')
                 <form action="{{route('products.destroy',$product)}}" method="post">
                     @csrf
                     @method('delete')
                     <button type="submit" style="background-color: darkred;color: white;padding: 8px 12px;border-radius: 10px;border: 0;outline: none">Delete</button>
                 </form>
+                @endcan
             </td>
         </tr>
     @endforeach
