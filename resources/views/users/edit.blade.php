@@ -17,7 +17,9 @@
     <br>
     <select name="role" @selected($user->role)>
         <option value="user">user</option>
+        @can('user-change-role')
         <option value="operator">Operator</option>
+        @endcan
     </select>
     <br>
     <input type="submit" value="Update">

@@ -17,7 +17,9 @@
 </h3>
 
 <h1>Users</h1>
+@can('user-create')
 <a href="{{route('users.create')}}">Add User</a>
+@endcan
 <br><br>
 <table border="1">
     <thead>
@@ -30,22 +32,28 @@
     </thead>
     <tbody>
     @foreach($users as $user)
+        @can('user-show',$user)
         <tr>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
             <td>{{$user->role}}</td>
             <td>
+                @can('user-update',$user)
                 <form action="{{route('users.edit',$user)}}" method="get">
                     @csrf
                     <button type="submit" style="background-color: orangered;color: white;padding: 8px 12px;border-radius: 10px;border: 0;outline: none">Edit</button>
                 </form>
+                @endcan
+                @can('user-update',$user)
                 <form action="{{route('users.destroy',$user)}}" method="post">
                     @csrf
                     @method('delete')
                     <button type="submit" style="background-color: darkred;color: white;padding: 8px 12px;border-radius: 10px;border: 0;outline: none">Delete</button>
                 </form>
+                @endcan
             </td>
         </tr>
+        @endcan
     @endforeach
     </tbody>
 </table>
