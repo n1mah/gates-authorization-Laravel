@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
@@ -18,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (Gate::allows('user-show')) {
+        if (Gate::allows('user-show', Auth::user())) {
             $users = User::all();
             return view('users.index', compact('users'));
         }
@@ -53,7 +54,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if (Gate::allows('user-update'))
+        if (Gate::allows('user-update', $user))
             return view('users.edit', compact('user'));
         abort(403);
     }
@@ -63,7 +64,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        if (Gate::allows('user-update')){
+        if (Gate::allows('user-update', $user)){
             $user->update($request->all());
             return redirect()->route('users.index');
         }
@@ -76,7 +77,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if (Gate::allows('user-delete')) {
+        if (Gate::allows('user-delete',$user)) {
             $user->delete();
             return redirect()->route('users.index');
         }
