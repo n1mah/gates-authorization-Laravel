@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -17,8 +18,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('users.index', compact('users'));
+        if (Gate::allows('user-show')) {
+            $users = User::all();
+            return view('users.index', compact('users'));
+        }
+       abort(403);
     }
 
     /**
@@ -26,7 +30,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        if (Gate::allows('user-create'))
+            return view('users.create');
+        abort(403);
     }
 
     /**
@@ -34,8 +40,11 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        User::create($request->all());
-        return redirect()->route('users.index');
+        if (Gate::allows('user-create')){
+            User::create($request->all());
+            return redirect()->route('users.index');
+        }
+        abort(403);
     }
 
 
@@ -44,7 +53,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        if (Gate::allows('user-update'))
+            return view('users.edit', compact('user'));
+        abort(403);
     }
 
     /**
@@ -52,8 +63,12 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->update($request->all());
-        return redirect()->route('users.index');
+        if (Gate::allows('user-update')){
+            $user->update($request->all());
+            return redirect()->route('users.index');
+        }
+        abort(403);
+
     }
 
     /**
@@ -61,7 +76,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-        return redirect()->route('users.index');
+        if (Gate::allows('user-delete')) {
+            $user->delete();
+            return redirect()->route('users.index');
+        }
+        abort(403);
     }
 }
