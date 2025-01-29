@@ -19,11 +19,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (Gate::allows('user-show', Auth::user())) {
-            $users = User::all();
-            return view('users.index', compact('users'));
-        }
-       abort(403);
+        $this->authorize('user-show', Auth::user());
+        $users = User::all();
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -31,9 +29,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        if (Gate::allows('user-create'))
-            return view('users.create');
-        abort(403);
+        $this->authorize('user-create');
+        return view('users.create');
     }
 
     /**
@@ -41,11 +38,9 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        if (Gate::allows('user-create')){
-            User::create($request->all());
-            return redirect()->route('users.index');
-        }
-        abort(403);
+        $this->authorize('user-create');
+        User::create($request->all());
+        return redirect()->route('users.index');
     }
 
 
@@ -54,9 +49,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if (Gate::allows('user-update', $user))
-            return view('users.edit', compact('user'));
-        abort(403);
+        $this->authorize('user-update', $user);
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -64,11 +58,9 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        if (Gate::allows('user-update', $user)){
-            $user->update($request->all());
-            return redirect()->route('users.index');
-        }
-        abort(403);
+        $this->authorize('user-update', $user);
+        $user->update($request->all());
+        return redirect()->route('users.index');
 
     }
 
@@ -77,10 +69,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if (Gate::allows('user-delete',$user)) {
-            $user->delete();
-            return redirect()->route('users.index');
-        }
-        abort(403);
+        $this->authorize('user-delete', $user);
+        $user->delete();
+        return redirect()->route('users.index');
     }
 }
