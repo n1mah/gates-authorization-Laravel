@@ -23,9 +23,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        if (Gate::allows('product-manage'))
-            return view('products.create');
-        abort(403);
+        $this->authorize('product-manage');
+        return view('products.create');
     }
 
     /**
@@ -33,11 +32,9 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        if (Gate::allows('product-manage')){
-            Product::create($request->all());
-            return redirect()->route('products.index');
-        }
-        abort(403);
+        $this->authorize('product-manage');
+        Product::create($request->all());
+        return redirect()->route('products.index');
     }
 
 
@@ -46,9 +43,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        if (Gate::allows('product-manage'))
-            return view('products.edit', compact('product'));
-        abort(403);
+        $this->authorize('product-manage');
+        return view('products.edit', compact('product'));
     }
 
     /**
@@ -56,11 +52,9 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        if (Gate::allows('product-manage')){
-            $product->update($request->all());
-            return redirect()->route('products.index');
-        }
-        abort(403);
+        $this->authorize('product-manage');
+        $product->update($request->all());
+        return redirect()->route('products.index');
     }
 
     /**
@@ -68,10 +62,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        if (Gate::allows('product-delete')) {
-            $product->delete();
-            return redirect()->route('products.index');
-        }
-        abort(403);
+        $this->authorize('product-delete');
+        $product->delete();
+        return redirect()->route('products.index');
     }
 }
